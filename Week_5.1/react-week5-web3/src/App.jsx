@@ -5,7 +5,8 @@ import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
     WalletDisconnectButton,
-    WalletMultiButton
+    WalletMultiButton,
+    WalletConnectButton
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { Airdrop } from './Airdrop';
@@ -14,20 +15,17 @@ import { Airdrop } from './Airdrop';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  // ✅ Fix: Define wallets array
-  const wallets = useMemo(() => [new UnsafeBurnerWalletAdapter()], []);
 
   return (
-    <ConnectionProvider endpoint={clusterApiUrl('devnet')}>
-      <WalletProvider wallets={wallets} autoConnect>
+    <ConnectionProvider endpoint={"https://solana-devnet.g.alchemy.com/v2/vlsrSdYCDKeEAprOJjwRxgQ_3I149_AX"}>
+      <WalletProvider wallets={[]} autoConnect>
         <WalletModalProvider>
+          <WalletMultiButton></WalletMultiButton>
+          <WalletDisconnectButton></WalletDisconnectButton>
           <div>
-            hi there! <b>buddy</b>
+            hi there <b>Hello</b>
           </div>
-          <WalletMultiButton /> {/* ✅ Fix: Add a connect wallet button */}
-          <Airdrop />
+          <Airdrop></Airdrop>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
