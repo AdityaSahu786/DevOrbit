@@ -4,20 +4,43 @@ const { UserModel, TodoModel } = require("./db");
 const { auth, JWT_SECRET } = require("./auth");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const { z } = require('zod');
 
-mongoose.connect("mongodb+srv://codeadiayush:********@cluster01.tvpli.mongodb.net/todo-app")
+
+mongoose.connect("mongodb+srv://simps123@gmail.com:ramdevBabBaKIjaiHO@cluster01.tvpli.mongodb.net/todo-app")
 
 const app = express();
 app.use(express.json());
 
 app.post("/signup", async function(req, res) {
+
+    const requiredBody = z.object({
+        email: z.string().min(3).max(100).email(),
+        password: z.string().min(3).max(100),
+        name: z.string().min(3).max(30)
+    });
+
+
+    const parsedDataWithSuccess = requiredBody.safeParse(req.body);
+
+    if(!parsedDataWithSuccess.success) {
+        res.json({
+            message: "Incorrect  Format",
+            error: parsedDataWithSuccess.error
+        })
+    }
+
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
+    
+     if(typeof email !== "string" || email.length < 5 || !email.includes("@")) {
+        res.json ({
+            message: "Email incorrect"
+        })
+        return
+     }
 
-    let errorThrown = false;
-     
-    try {    
     const hashedPassword = await bcrypt.hash(password, 5);
     console.log(hashedPassword);
 
@@ -26,24 +49,10 @@ app.post("/signup", async function(req, res) {
         password: hashedPassword,
         name: name
     });
-     throw new Error("User already exsist");
-
-    } catch(e){
-        res.json({
-            message: "User already exsist."
-        })
-        errorThrown = true;
-    }
-
-      if(!errorThrown) {
-        
-        res.json({
-            message: "You are signed up"
-        }) 
-
-      }
-
     
+    res.json({
+        message: "You are signed up"
+    })
 });
 
 
