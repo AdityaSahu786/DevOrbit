@@ -14,7 +14,15 @@ import '@solana/wallet-adapter-react-ui/styles.css';
 
 function App() {
   return (
-    <TokenLaunchpad></TokenLaunchpad>
+    <ConnectionProvider endpoint={"https://api.devent.solana.com"}>
+    <WalletProvider wallets={[]} autoConnect>
+        <WalletModalProvider>
+             <WalletMultiButton></WalletMultiButton>
+            <TokenLaunchpad></TokenLaunchpad>
+            { /* Your app's components go here, nested within the context providers. */ }
+        </WalletModalProvider>
+    </WalletProvider>
+</ConnectionProvider>
   )
 }
 
