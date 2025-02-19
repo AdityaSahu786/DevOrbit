@@ -11,6 +11,18 @@ function App() {
   )
 }
 
+const style = { width: 200, backgroundColor: "White", borderRadius: 10, borderColor: "gray", borderWidth: 1}
 
+function PostComponent() {
+  return 
+    <div style={Style}>
+      <img src={"https://appx-wsb-grp-mcdn.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg"}
+         Style={{
+          width:20,
+          height: 20,
+          borderRadius: 20
+         }} />
+    </div>
+}
 
 export default App
